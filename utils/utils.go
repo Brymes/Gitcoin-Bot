@@ -3,6 +3,7 @@ package utils
 import (
 	"bytes"
 	"crypto/rand"
+	"fmt"
 	"log"
 	"runtime/debug"
 	"time"
@@ -36,6 +37,9 @@ func GenerateUniqueID(length int, charset string) string {
 }
 
 func OnErrorPanic(err error, helpText string, logger *log.Logger) {
+	if logger == nil {
+		logger = log.Default()
+	}
 	if err != nil {
 		logger.Panicf("%s: \n, %v", helpText, err)
 	}
@@ -52,8 +56,9 @@ func HandlePanicMacro(err interface{}, logger *log.Logger) bool {
 	}
 	return false
 }
+
 func PeriodicLog(buff *bytes.Buffer) {
-	ticker := time.NewTicker(30 * time.Second)
+	ticker := time.NewTicker(15 * time.Second)
 
 	for {
 		select {
@@ -67,4 +72,8 @@ func PeriodicLog(buff *bytes.Buffer) {
 		}
 	}
 
+}
+
+func CreateDiscordHyperLink(text, url string) string {
+	return fmt.Sprintf("[%s](%s)", text, url)
 }

@@ -2,6 +2,7 @@ package config
 
 import (
 	"Brymes-Gitcoin-Bot/utils"
+	"github.com/bwmarrin/discordgo"
 	"github.com/joho/godotenv"
 	"log"
 	"os"
@@ -10,6 +11,15 @@ import (
 var (
 	DiscordBotToken string
 	SecretKey       string
+
+	BountyBotActive, GrantBotActive bool
+
+	DiscordBot *discordgo.Session
+
+	MessageFooter = discordgo.MessageEmbedFooter{
+		Text:    "Powered by Gitcoin",
+		IconURL: "https://bounties.gitcoin.co",
+	}
 )
 
 func LoadEnv() {
@@ -25,6 +35,6 @@ func LoadEnv() {
 func InitDiscordBot() {
 	DiscordBotToken = os.Getenv("DISCORD_BOT_TOKEN")
 	if DiscordBotToken == "" {
-		log.Fatalln("Kindly Pass SendGrid API key as an environment variable named SENDGRID_API_KEY")
+		log.Fatalln("DISCORD_BOT_TOKEN environment variable not set")
 	}
 }

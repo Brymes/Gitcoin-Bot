@@ -10,7 +10,7 @@ var (
 	SlashCommands = map[string]func(*discordgo.Session, *discordgo.InteractionCreate){
 		"help": HelpHandler,
 		//"track_grants":   handlers.SubscriptionsHandler,
-		//"track_bounties": TrackBountyHandler,
+		"track_bounties": TrackBountyHandler,
 	}
 )
 
