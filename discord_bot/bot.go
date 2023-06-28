@@ -2,11 +2,14 @@ package bot
 
 import (
 	"Brymes-Gitcoin-Bot/config"
+	"Brymes-Gitcoin-Bot/utils"
 	"github.com/bwmarrin/discordgo"
 	"log"
 )
 
 func InitBot() {
+	buff, logger := config.InitLoggerInstance("Get-Bounties")
+	go utils.PeriodicLog(buff)
 
 	// Create a new Discord session using the provided bot token.
 	dg, err := discordgo.New("Bot " + config.DiscordBotToken)
@@ -26,7 +29,7 @@ func InitBot() {
 		log.Fatal("Error Initializing bot")
 	}
 
-	RegisterCommands(dg, nil)
+	RegisterCommands(dg, logger)
 
 	config.DiscordBot = dg
 

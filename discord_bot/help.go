@@ -9,7 +9,7 @@ import (
 )
 
 var (
-	HelpText  = formatHelpText(helpArray[:7])
+	HelpText  = formatHelpText(helpArray)
 	helpArray = [][]string{
 		{"/help", "Display help message"},
 		{"/track_grants", "Starts Sending GitCoin Grant updates to channel it's called on"},
@@ -31,18 +31,8 @@ func formatHelpText(helpArray [][]string) string {
 }
 
 func HelpHandler(discordSession *discordgo.Session, interaction *discordgo.InteractionCreate) {
-	err := discordSession.InteractionRespond(interaction.Interaction, &discordgo.InteractionResponse{
-		Type: discordgo.InteractionResponseChannelMessageWithSource,
-		Data: &discordgo.InteractionResponseData{
-			Content: HelpText,
-			Title:   "Help/Commands Message",
-		},
-	})
-
+	err := InteractionResponse(HelpText, "Help/Commands Message", discordSession, interaction)
 	utils.OnErrorPanic(err, "Error sending Help Message", nil)
-
-	err = SendChannelSetupFollowUp(HelpText, discordSession, interaction)
-	utils.OnErrorPanic(err, "Error sending Help Follow Up", nil)
 }
 
 func SendHelpText(discordSession *discordgo.Session, message *discordgo.MessageCreate) {
@@ -50,7 +40,13 @@ func SendHelpText(discordSession *discordgo.Session, message *discordgo.MessageC
 	utils.OnErrorPanic(err, "Error sending Help Message", nil)
 }
 
-func SendChannelSetupFollowUp(message string, discordSession *discordgo.Session, interaction *discordgo.InteractionCreate) error {
-	_, err := discordSession.FollowupMessageCreate(interaction.Interaction, true, &discordgo.WebhookParams{Content: message})
+func InteractionResponse(message, title string, discordSession *discordgo.Session, interaction *discordgo.InteractionCreate) error {
+	err := discordSession.InteractionRespond(interaction.Interaction, &discordgo.InteractionResponse{
+		Type: discordgo.InteractionResponseChannelMessageWithSource,
+		Data: &discordgo.InteractionResponseData{
+			Content: message,
+			Title:   title,
+		},
+	})
 	return err
 }

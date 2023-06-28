@@ -8,8 +8,8 @@ import (
 
 var (
 	SlashCommands = map[string]func(*discordgo.Session, *discordgo.InteractionCreate){
-		"help": HelpHandler,
-		//"track_grants":   handlers.SubscriptionsHandler,
+		"help":           HelpHandler,
+		"track_grants":   TrackGrantHandler,
 		"track_bounties": TrackBountyHandler,
 	}
 )
@@ -25,7 +25,7 @@ func RegisterHandlers(discordSession *discordgo.Session) {
 // This function will be called (due to AddHandler above) every time a new
 // message is created on any channel that the authenticated bot has access to.
 func messageHandler(s *discordgo.Session, m *discordgo.MessageCreate) {
-	defer utils.HandlePanicMacro(s, nil)
+	defer utils.HandlePanicMacro(recover(), nil)
 
 	// Ignore all messages created by the bot itself
 	if m.Author.ID == s.State.User.ID {
@@ -52,7 +52,7 @@ func messageHandler(s *discordgo.Session, m *discordgo.MessageCreate) {
 func centralCommandHandler(discordSession *discordgo.Session, interaction *discordgo.InteractionCreate) {
 	switch interaction.Type {
 	case discordgo.InteractionApplicationCommand:
-		defer utils.HandlePanicMacro(discordSession, nil)
+		defer utils.HandlePanicMacro(recover(), nil)
 
 		if handler, ok := SlashCommands[interaction.ApplicationCommandData().Name]; ok {
 			handler(discordSession, interaction)

@@ -1,7 +1,6 @@
 package config
 
 import (
-	"Brymes-Gitcoin-Bot/utils"
 	"github.com/bwmarrin/discordgo"
 	"github.com/joho/godotenv"
 	"log"
@@ -10,9 +9,8 @@ import (
 
 var (
 	DiscordBotToken string
-	SecretKey       string
 
-	BountyBotActive, GrantBotActive bool
+	BountyBotActive, GrantBotActive, ManagerRunning bool
 
 	DiscordBot *discordgo.Session
 
@@ -24,11 +22,6 @@ var (
 
 func LoadEnv() {
 	_ = godotenv.Load()
-	SecretKey = os.Getenv("JWT_SECRET_KEY")
-	if SecretKey == "" {
-		SecretKey = utils.GenerateUniqueID(20, "alphanumeric")
-	}
-
 	InitDiscordBot()
 }
 

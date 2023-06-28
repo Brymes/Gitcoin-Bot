@@ -63,7 +63,7 @@ func PeriodicLog(buff *bytes.Buffer) {
 	for {
 		select {
 		case <-ticker.C:
-			if buff.Len() == 0 {
+			if buff.Len() != 0 {
 				log.Println(buff)
 			}
 			buff.Reset()

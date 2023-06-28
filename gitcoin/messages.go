@@ -18,6 +18,11 @@ func (bounty BountiesResponse) createBountyEmbed() *discordgo.MessageEmbed {
 		Fields: []*discordgo.MessageEmbedField{
 			{
 				Name:   "Token Name",
+				Value:  bounty.TokenName,
+				Inline: false,
+			},
+			{
+				Name:   "Token Value",
 				Value:  bounty.ValueInToken,
 				Inline: false,
 			},
