@@ -9,7 +9,12 @@ import (
 )
 
 func Manager(channel string) {
-	ticker := time.NewTicker(6 * time.Hour)
+	if config.ManagerRunning {
+		return
+	}
+
+	config.ManagerRunning = true
+	ticker := time.NewTicker(3 * time.Minute)
 
 	for {
 		select {
@@ -17,9 +22,10 @@ func Manager(channel string) {
 			if config.BountyBotActive {
 				go GetBounties(channel)
 			}
-			//else if config.GrantBotActive {
-			//	go GetGrants(channel)
-			//}
+
+			if config.GrantBotActive {
+				go GetGrants(channel)
+			}
 		default:
 			continue
 		}

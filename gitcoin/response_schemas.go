@@ -21,21 +21,35 @@ type BountiesResponse struct {
 }
 
 type GrantResponseWrapper struct {
-	Count   int             `json:"count"`
-	Next    string          `json:"next"`
-	Results []GrantResponse `json:"results"`
+	Grants []GrantResponse `json:"grants"`
+	// Sensitive info as such shouldn't be out
+	Credentials struct {
+		IsStaff         bool `json:"is_staff"`
+		IsAuthenticated bool `json:"is_authenticated"`
+	} `json:"-"`
+	// TODO figure MetaData out
+	Metadata struct {
+		ClaimStartDate interface{} `json:"claim_start_date"`
+		ClaimEndDate   interface{} `json:"claim_end_date"`
+		StartDate      interface{} `json:"start_date"`
+		EndDate        interface{} `json:"end_date"`
+	} `json:"-"`
 }
 
 type GrantResponse struct {
-	CustomerName          string    `json:"customer_name"`
-	DisplayText           string    `json:"display_text"`
-	GrantClrPercentageCap string    `json:"grant_clr_percentage_cap"`
-	IsActive              bool      `json:"is_active"`
-	StartDate             time.Time `json:"start_date"`
-	EndDate               time.Time `json:"end_date"`
-	ClaimStartDate        time.Time `json:"claim_start_date"`
-	ClaimEndDate          time.Time `json:"claim_end_date"`
-	VerifiedThreshold     string    `json:"verified_threshold"`
-	UnverifiedThreshold   string    `json:"unverified_threshold"`
-	BannerText            string    `json:"banner_text"`
+	Id                            int    `json:"id"`
+	Active                        bool   `json:"active"`
+	DetailsUrl                    string `json:"details_url"`
+	Title                         string `json:"title"`
+	AmountReceivedInRound         string `json:"amount_received_in_round"`
+	AmountReceived                string `json:"amount_received"`
+	PositiveRoundContributorCount int    `json:"positive_round_contributor_count"`
+	Slug                          string `json:"slug"`
+	Url                           string `json:"url"`
+	Verified                      bool   `json:"verified"`
+	TwitterHandle1                string `json:"twitter_handle_1"`
+	ReferenceUrl                  string `json:"reference_url"`
+	GithubProjectUrl              string `json:"github_project_url"`
+	HasExternalFunding            string `json:"has_external_funding"`
+	IsHidden                      bool   `json:"is_hidden"`
 }

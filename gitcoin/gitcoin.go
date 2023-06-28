@@ -30,3 +30,18 @@ func (gs GitcoinService) GetBounties(logger *log.Logger) []*discordgo.MessageEmb
 
 	return allUpdates
 }
+
+func (gs GitcoinService) GetGrants(logger *log.Logger) []*discordgo.MessageEmbed {
+	var (
+		response   GrantResponseWrapper
+		allUpdates []*discordgo.MessageEmbed
+	)
+	resBody := makeRequest(UrlMap[1], logger)
+	_ = json.Unmarshal(resBody, &response)
+
+	for _, grant := range response.Grants {
+		allUpdates = append(allUpdates, grant.createGrantEmbed())
+	}
+
+	return allUpdates
+}
