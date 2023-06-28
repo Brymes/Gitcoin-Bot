@@ -45,7 +45,7 @@ func messageHandler(s *discordgo.Session, m *discordgo.MessageCreate) {
 		}
 	default:
 		log.Println(m.Content)
-		SendHelpText(s, m)
+		//SendHelpText(s, m)
 	}
 }
 

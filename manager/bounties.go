@@ -12,7 +12,7 @@ func GetBounties(channel string) {
 	go utils.PeriodicLog(buff)
 
 	bounties := gitcoin.GitcoinService{}.GetBounties(logger)
-	for _, bounty := range bounties[3:] {
+	for _, bounty := range bounties {
 		sendEmbed(channel, bounty, logger)
 		time.Sleep(10 * time.Second)
 	}

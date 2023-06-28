@@ -14,7 +14,7 @@ func Manager(channel string) {
 	}
 
 	config.ManagerRunning = true
-	ticker := time.NewTicker(3 * time.Minute)
+	ticker := time.NewTicker(6 * time.Hour)
 
 	for {
 		select {
